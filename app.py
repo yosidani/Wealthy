@@ -249,11 +249,11 @@ def register():
 
         # Ensure password was submitted
         elif not request.form.get("password"):
-            return apology("must provide password", 403)
+            return apology("must provide password", 400)
 
         # Ensure password confirmation was given
         elif not request.form.get("confirmation"):
-            return apology("must confirm password", 403)
+            return apology("must confirm password", 400)
 
         # Ensure password was confirmed
         elif not request.form.get("confirmation") == request.form.get("password"):
