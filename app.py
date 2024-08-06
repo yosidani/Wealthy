@@ -98,7 +98,11 @@ def buy():
             return apology("Symbol doesn't exist", 400)
 
         # Ensure number of shares was valid
-        if not request.form.get("shares") or not request.form.get("shares").isdigit() or int(request.form.get("shares")) <= 0:
+        if (
+            not request.form.get("shares")
+            or not request.form.get("shares").isdigit()
+            or int(request.form.get("shares")) <= 0
+        ):
             return apology("Invalid number of shares", 400)
 
         price = lookup(request.form.get("symbol").upper())["price"]
@@ -156,6 +160,7 @@ def history():
     return render_template(
         "history.html", owned_stocks=owned_stocks_db, history=history1
     )
+
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
