@@ -90,18 +90,18 @@ def buy():
     if request.method == "POST":
 
         # Ensure symbol was submitted
-        if not request.form.get("gsymbol"):
-            return apology("must provide symbol", 403)
+        if not request.form.get("symbol"):
+            return apology("must provide symbol", 400)
 
         # Ensure symbol was valid
-        if lookup(request.form.get("gsymbol").upper()) == None:
-            return apology("Symbol doesn't exist", 403)
+        if lookup(request.form.get("symbol").upper()) == None:
+            return apology("Symbol doesn't exist", 400)
 
         # Ensure number of shares was valid
         if not int(request.form.get("shares")) > 0:
-            return apology("Invalid number of shares", 403)
+            return apology("Invalid number of shares", 400)
 
-        price = lookup(request.form.get("gsymbol").upper())["price"]
+        price = lookup(request.form.get("symbol").upper())["price"]
         amount_db = db.execute(
             "SELECT cash FROM users WHERE id = ?", session["user_id"]
         )
@@ -109,7 +109,7 @@ def buy():
 
         # Ensure if the user can afford the stock
         if int(request.form.get("shares")) * price > amount:
-            return apology("Can't afford the number of shares demanded", 403)
+            return apology("Can't afford the number of shares demanded", 400)
 
         id = session["user_id"]
         username_db = db.execute(
@@ -117,7 +117,7 @@ def buy():
         )
         username = username_db[0]["username"]
         shares = request.form.get("shares")
-        symbol = request.form.get("gsymbol").upper()
+        symbol = request.form.get("symbol").upper()
         time = datetime.datetime.now()
         tot_transaction = int(request.form.get("shares")) * price
         cash = amount - tot_transaction
@@ -218,11 +218,11 @@ def quote():
 
         # Ensure symbol was submitted
         if not request.form.get("symbol"):
-            return apology("must provide symbol", 403)
+            return apology("must provide symbol", 400)
 
         # Ensure symbol was valid
         if lookup(request.form.get("symbol").upper()) == None:
-            return apology("Symbol doesn't exist", 403)
+            return apology("Symbol doesn't exist", 400)
 
         # direct user to Quoted result
         stock1 = lookup(request.form.get("symbol").upper())

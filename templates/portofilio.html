@@ -28,14 +28,14 @@
                     <td class="text-end">{{(stock.shares * stock.current_price) | usd }}</td>
                     <td class="text-end">
                         <form action="/buy" method="POST">
-                            <input name="gsymbol" type="hidden" value="{{ stock.symbol }}">
+                            <input name="symbol" type="hidden" value="{{ stock.symbol }}">
                             <input name="shares" type="hidden" value="1">
                             <input type="submit" value="Buy" class="btn btn-outline-secondary">
                         </form>
                     </td>
                     <td class="text-end">
                         <form action="/sell" method="POST">
-                            <input name="gsymbol" type="hidden" value="{{ stock.symbol }}">
+                            <input name="symbol" type="hidden" value="{{ stock.symbol }}">
                             <input name="shares" type="hidden" value="1">
                             <input type="submit" value="Sell" class="btn btn-outline-secondary">
                         </form>
