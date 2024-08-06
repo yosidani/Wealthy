@@ -10,7 +10,6 @@
     <table class="table table-hover">
         <thead class="table-dark">
             <tr>
-                <th class="text-start">Company Name</th>
                 <th class="text-start">Symbol</th>
                 <th class="text-end">Shares</th>
                 <th class="text-end">Price</th>
@@ -20,7 +19,6 @@
        <tbody>
            {% for stock in owned_stocks %}
                 <tr>
-                    <td class="text-start">{{ stock.stock_name }}</td>
                     <td class="text-start">{{ stock.symbol }}</td>
                     <td class="text-end">{{ stock.shares }}</td>
                     <td class="text-end">{{ stock.price | usd }}</td>
@@ -30,7 +28,7 @@
         </tbody>
     </table>
     {% if history |int() == 0 %}
-        <p>:(   You don't have any transaction history!</p>
+        <p>💸You don't have any transaction history!</p>
     {% endif %}
 
         </main>

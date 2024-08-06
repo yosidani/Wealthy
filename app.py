@@ -57,7 +57,7 @@ def index():
         )
 
     owned_stocks_db = db.execute(
-        "SELECT stock_name, symbol, SUM(shares) AS shares, current_price FROM data WHERE user_id = ? GROUP BY symbol",
+        "SELECT symbol, SUM(shares) AS shares, current_price FROM data WHERE user_id = ? GROUP BY symbol",
         session["user_id"],
     )
     cash_db = db.execute("SELECT cash FROM users WHERE id = ?", session["user_id"])
@@ -118,20 +118,18 @@ def buy():
         username = username_db[0]["username"]
         shares = request.form.get("shares")
         symbol = request.form.get("gsymbol").upper()
-        stockname = lookup(request.form.get("gsymbol").upper())["name"]
         time = datetime.datetime.now()
         tot_transaction = int(request.form.get("shares")) * price
         cash = amount - tot_transaction
 
         db.execute(
-            "INSERT INTO data (user_id, username, shares, symbol, price, total_transaction, stock_name, time) VALUES(?, ?, ?, ?, ?, ?, ?, ?)",
+            "INSERT INTO data (user_id, username, shares, symbol, price, total_transaction, time) VALUES(?, ?, ?, ?, ?, ?, ?)",
             id,
             username,
             shares,
             symbol,
             price,
             tot_transaction,
-            stockname,
             time,
         )
 
@@ -151,14 +149,13 @@ def history():
     """Show history of transactions"""
 
     owned_stocks_db = db.execute(
-        "SELECT stock_name, symbol, shares, price, time FROM data WHERE user_id = ?",
+        "SELECT symbol, shares, price, time FROM data WHERE user_id = ?",
         session["user_id"],
     )
     history1 = len(owned_stocks_db)
     return render_template(
         "history.html", owned_stocks=owned_stocks_db, history=history1
     )
-
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
@@ -314,7 +311,7 @@ def sell():
             return apology("Shares not valid", 403)
 
         shares = db.execute(
-            "SELECT SUM(shares) AS shares FROM data WHERE user_id = ?  AND symbol = ? GROUP BY symbol",
+            "SELECT SUM(shares) AS shares FROM data WHERE user_id = ? AND symbol = ? GROUP BY symbol",
             session["user_id"],
             request.form.get("gsymbol").upper(),
         )
@@ -335,20 +332,18 @@ def sell():
         username = username_db[0]["username"]
         shares = -int(request.form.get("shares"))
         symbol = request.form.get("gsymbol").upper()
-        stockname = lookup(request.form.get("gsymbol").upper())["name"]
         time = datetime.datetime.now()
         tot_transaction = int(request.form.get("shares")) * price
         cash = amount + tot_transaction
 
         db.execute(
-            "INSERT INTO data (user_id, username, shares, symbol, price, total_transaction, stock_name, time) VALUES(?, ?, ?, ?, ?, ?, ?, ?)",
+            "INSERT INTO data (user_id, username, shares, symbol, price, total_transaction, time) VALUES(?, ?, ?, ?, ?, ?, ?)",
             id,
             username,
             shares,
             symbol,
             price,
             tot_transaction,
-            stockname,
             time,
         )
 

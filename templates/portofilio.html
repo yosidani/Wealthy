@@ -10,7 +10,6 @@
     <table class="table table-hover">
         <thead class="table-dark">
             <tr>
-                <th class="text-start">Company Name</th>
                 <th class="text-start">Symbol</th>
                 <th class="text-end">Shares</th>
                 <th class="text-end">Price</th>
@@ -23,7 +22,6 @@
            {% for stock in owned_stocks %}
                {% if stock.shares|int() > 0 %}
                 <tr>
-                    <td class="text-start">{{ stock.stock_name }}</td>
                     <td class="text-start">{{ stock.symbol }}</td>
                     <td class="text-end">{{ stock.shares }}</td>
                     <td class="text-end">{{ stock.current_price | usd }}</td>
