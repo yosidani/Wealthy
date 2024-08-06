@@ -317,7 +317,7 @@ def sell():
         )
         # Ensure number of shares was valid
         if int(request.form.get("shares")) > shares[0]["shares"]:
-            return apology("Unavailable number of shares", 403)
+            return apology("Unavailable number of shares", 400)
 
         price = lookup(request.form.get("symbol").upper())["price"]
         amount_db = db.execute(
