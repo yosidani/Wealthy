@@ -217,15 +217,15 @@ def quote():
     if request.method == "POST":
 
         # Ensure symbol was submitted
-        if not request.form.get("gsymbol"):
+        if not request.form.get("symbol"):
             return apology("must provide symbol", 403)
 
         # Ensure symbol was valid
-        if lookup(request.form.get("gsymbol").upper()) == None:
+        if lookup(request.form.get("symbol").upper()) == None:
             return apology("Symbol doesn't exist", 403)
 
         # direct user to Quoted result
-        stock1 = lookup(request.form.get("gsymbol").upper())
+        stock1 = lookup(request.form.get("symbol").upper())
         return render_template("quoteresult.html", stock=stock1)
 
     # User reached route via GET (as by clicking a link or via redirect)
