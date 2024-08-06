@@ -245,7 +245,7 @@ def register():
 
         # Ensure username was submitted
         if not request.form.get("username"):
-            return apology("must provide username", 403)
+            return apology("must provide username", 400)
 
         # Ensure password was submitted
         elif not request.form.get("password"):
@@ -257,7 +257,7 @@ def register():
 
         # Ensure password was confirmed
         elif not request.form.get("confirmation") == request.form.get("password"):
-            return apology("password not confirmed", 403)
+            return apology("password not confirmed", 400)
 
         # Query database for username
         rows = db.execute(
@@ -266,7 +266,7 @@ def register():
 
         # Ensure username exists and password is correct
         if len(rows) != 0:
-            return apology("invalid username and/or password", 403)
+            return apology("invalid username and/or password", 400)
 
         # Add the user into the database
         db.execute(
