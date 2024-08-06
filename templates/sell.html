@@ -7,7 +7,7 @@
 {% block main %}
     <form action="/sell" method="post">
         <div class="mb-3">
-            <select class="form-select mx-auto w-auto" name="gsymbol">
+            <select class="form-select mx-auto w-auto" name="symbol">
                 <option disabled="" selected="">Stock's Symbol</option>
                 {% for stock in owned_stocks %}
                   {% if stock.shares|int() > 0 %}

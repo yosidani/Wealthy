@@ -299,27 +299,27 @@ def sell():
     if request.method == "POST":
 
         # Ensure symbol was submitted
-        if not request.form.get("gsymbol"):
-            return apology("must provide symbol", 403)
+        if not request.form.get("symbol"):
+            return apology("must provide symbol", 400)
 
         # Ensure symbol was valid
-        if lookup(request.form.get("gsymbol").upper()) == None:
-            return apology("Symbol doesn't exist", 403)
+        if lookup(request.form.get("symbol").upper()) == None:
+            return apology("Symbol doesn't exist", 400)
 
         # Ensure shares was valid
         if int(request.form.get("shares")) <= 0:
-            return apology("Shares not valid", 403)
+            return apology("Shares not valid", 400)
 
         shares = db.execute(
             "SELECT SUM(shares) AS shares FROM data WHERE user_id = ? AND symbol = ? GROUP BY symbol",
             session["user_id"],
-            request.form.get("gsymbol").upper(),
+            request.form.get("symbol").upper(),
         )
         # Ensure number of shares was valid
         if int(request.form.get("shares")) > shares[0]["shares"]:
             return apology("Unavailable number of shares", 403)
 
-        price = lookup(request.form.get("gsymbol").upper())["price"]
+        price = lookup(request.form.get("symbol").upper())["price"]
         amount_db = db.execute(
             "SELECT cash FROM users WHERE id = ?", session["user_id"]
         )
@@ -331,7 +331,7 @@ def sell():
         )
         username = username_db[0]["username"]
         shares = -int(request.form.get("shares"))
-        symbol = request.form.get("gsymbol").upper()
+        symbol = request.form.get("symbol").upper()
         time = datetime.datetime.now()
         tot_transaction = int(request.form.get("shares")) * price
         cash = amount + tot_transaction
