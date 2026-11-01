@@ -1,6 +1,6 @@
 import csv
 import datetime
-import pytz
+from zoneinfo import ZoneInfo
 import requests
 import urllib
 import uuid
@@ -55,7 +55,7 @@ def lookup(symbol):
 
     # Prepare API request
     symbol = symbol.upper()
-    end = datetime.datetime.now(pytz.timezone("US/Eastern"))
+    end = datetime.datetime.now(ZoneInfo("America/New_York"))
     start = end - datetime.timedelta(days=7)
 
     # Yahoo Finance API
